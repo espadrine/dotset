@@ -1,0 +1,19 @@
+# Authorship…
+author: "Thaddee Tyl <thaddee.tyl@gmail.com> (http://espadrine.github.com/)"
+contributors:
+  - "Thaddee Tyl <thaddee.tyl@gmail.com>"
+
+# Know thyself…
+name: ".set"
+description: "The Settings File Format\nOne file format to set them all."
+version: "2013-02-24"
+"homepage": "http://github.com/espadrine/set"
+
+# Technical information…
+repository:
+  type: "git"
+  url: "git://github.com/espadrine/set.git"
+main: "js/set.js"
+scripts: test: "node js/test"
+engines: node:
+  ">=0.4.0"
