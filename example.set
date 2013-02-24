@@ -4,9 +4,9 @@ contributors:
   - "Thaddee Tyl <thaddee.tyl@gmail.com>"
 
 # Know thyself…
-name: ".set"
+name: "(.set)"
 description: "The Settings File Format\nOne file format to set them all."
-version: "2013-02-24"
+version: "2013.02.24"
 "homepage": "http://github.com/espadrine/set"
 
 # Technical information…
