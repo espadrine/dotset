@@ -3,7 +3,7 @@
   "contributors": [
     "Thaddee Tyl <thaddee.tyl@gmail.com>"
   ],
-  "name": "(.set)",
+  "name": "dotset",
   "description": "The Settings File Format\nOne file format to set them all.",
   "version": "2013.02.24",
   "homepage": "http://github.com/espadrine/set",
