@@ -70,7 +70,7 @@ keyValue of indentation `indent`:
 
 unquotedKey:
 
-    (any unicode character but `:` and `-` and `"`)
+    (any unicode character but `:` and `-` and `"` and digit)
     (any unicode character but `:`)*
 
 unquotedPrimitive:
@@ -83,7 +83,7 @@ indent: sequence of ASCII characters `0x20`. Nothing else.
 
 array of indentation `indent`:
 
-    `-` primitive (newline indent `-` primitive)*
+    `-` (` `)+ primitive (newline indent `-` primitive)*
 
 
 ## Functional requirements
