@@ -46,23 +46,28 @@ SetStream.prototype = {
   },
   skipWhitespace: function() {
     var i, ch, offset;
-    this.skip(spaces);
-    ch = this.peekChar();
-    if (!ch) { return; }
-    if (ch === '#') {
-      // Comment!
-      while (!newline.test(ch)) {
-        if (!ch) { return; }
-        ch = this.getChar();
+    for (;;) {
+      this.skip(spaces);
+      ch = this.peekChar();
+      if (!ch) { return; }
+      if (ch === '#') {
+        // Comment!
+        while (!newline.test(ch)) {
+          if (!ch) { return; }
+          ch = this.getChar();
+        }
+      }
+      offset = this.offset;
+      this.skip(newline);
+      if (offset < this.offset) {
+        // We did skip a newline.
+        this.sol = this.offset;
+      }
+      ch = this.peekChar();
+      if (!(whiteSpace.test(ch) || ch === "#")) {
+        break;
       }
     }
-    offset = this.offset;
-    this.skip(newline);
-    if (offset < this.offset) {
-      // We did skip a newline.
-      this.sol = this.offset;
-    }
-    this.skip(spaces);
   },
   currentIndent: function() {
     var i, sol;

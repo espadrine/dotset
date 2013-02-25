@@ -7,7 +7,7 @@
   "description": "The Settings File Format\nOne file format to set them all.",
   "version": "2013.02.24",
   "homepage": "http://github.com/espadrine/set",
-  "# Technical information…\nrepository": {
+  "repository": {
     "type": "git",
     "url": "git://github.com/espadrine/set.git"
   },
