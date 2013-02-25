@@ -54,6 +54,9 @@ Primitives:
 - null (`nil`)
 
 ![String spec](http://json.org/string.gif)
+
+Also, Strings can escape newlines. Multiline strings for you.
+
 ![Number spec](http://json.org/number.gif)
 
 - dictionary:
