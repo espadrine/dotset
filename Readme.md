@@ -86,7 +86,7 @@ Also, Strings can escape newlines. Multiline strings for you.
 
 - array of indentation `indent`:
 
-    `-` (whitespace)+ primitive (newline indent `-` primitive)*
+    `-` (whitespace)+ primitive (newline indent `-` (whitespace)+ primitive)*
 
 - whitespace:
 
