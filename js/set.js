@@ -24,7 +24,7 @@ SetStream.prototype = {
   offset: 0,
   line: 0,
   column: 0,
-  indent: 0,
+  sol: 0,  // index of start of line.
   getChar: function() {
     var c = this.text[this.offset];
     if (c == '\n' || c == '\r') {
@@ -45,7 +45,7 @@ SetStream.prototype = {
     }
   },
   skipWhitespace: function() {
-    var i;
+    var i, ch, offset;
     this.skip(spaces);
     ch = this.peekChar();
     if (!ch) { return; }
@@ -56,17 +56,23 @@ SetStream.prototype = {
         ch = this.getChar();
       }
     }
+    offset = this.offset;
     this.skip(newline);
-    for (i = 0; ; i++) {
-      ch = this.peekChar();
-      if (!ch) { return; }
-      if (ch === " ") {
-        ch = this.getChar();
-      } else {
+    if (offset < this.offset) {
+      // We did skip a newline.
+      this.sol = this.offset;
+    }
+    this.skip(spaces);
+  },
+  currentIndent: function() {
+    var i, sol;
+    for (sol = i = this.sol; ; i++) {
+      ch = this.text[i];
+      if (ch !== " ") {
         break;
       }
     }
-    this.indent = i;
+    return i - sol;
   },
   error: function(msg) {
     throw new Error(this.filename + ':' + this.line + ':' + this.column +
@@ -226,15 +232,15 @@ SetStream.prototype = {
   readArray: function() {
     var ar, ch, indent;
     ar = [];
-    indent = this.indent;
-    while (this.indent >= indent) {
+    indent = this.currentIndent();
+    while (this.currentIndent() >= indent) {
       ch = this.getChar();
       if (!ch) { break; }
       if (ch !== "-") {
         this.error('Invalid array, found ' + JSON.stringify(ch) +
             ' instead of "-".');
       }
-      indent = this.indent;  // Readjust indentation.
+      indent = this.currentIndent();  // Readjust indentation.
       ar.push(this.readPrimitive());
       this.skipWhitespace();
     }
@@ -245,8 +251,8 @@ SetStream.prototype = {
   readDictionary: function() {
     var start, end, key, ch, indent, dict;
     dict = {};
-    indent = this.indent;
-    while (this.indent >= indent) {
+    indent = this.currentIndent();
+    while (this.currentIndent() >= indent) {
 
       ch = this.peekChar();
       if (ch === '"') {
@@ -266,7 +272,7 @@ SetStream.prototype = {
       }
       if (!ch) { break; }
 
-      indent = this.indent;  // Readjust indentation.
+      indent = this.currentIndent();  // Readjust indentation.
       dict[key] = this.readPrimitive();
       this.skipWhitespace();
     }
