@@ -6,8 +6,8 @@ var SET = {};
 // Parse code.
 //
 
-var whiteSpace = new RegExp('[ \n\r\t\v]');
-var spaces = new RegExp('[ \t\v]');
+var whiteSpace = new RegExp('[\n\r \t\u0009\u0020\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u200c\u200d\u202f\u205f\u2060\u3000\ufeff]');
+var spaces = new RegExp('[ \t\u0009\u0020\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u200c\u200d\u202f\u205f\u2060\u3000\ufeff]');
 var newline = new RegExp('[\n\r]');
 var stringEscape = new RegExp('["\\\/bfnrtu]');
 var hexadecimal = new RegExp('[a-fA-F0-9]');
@@ -41,17 +41,25 @@ SetStream.prototype = {
   skip: function(chars) {
     var rchars = new RegExp(chars);
     while (rchars.test(this.text[this.offset])) {
-      this.getChar();
+      if (!this.getChar()) { return; }
     }
-  },
-  skipNewline: function() {
-    this.skip(newline);
   },
   skipWhitespace: function() {
     var i;
-    this.skipNewline();
+    this.skip(spaces);
+    ch = this.peekChar();
+    if (!ch) { return; }
+    if (ch === '#') {
+      // Comment!
+      while (!newline.test(ch)) {
+        if (!ch) { return; }
+        ch = this.getChar();
+      }
+    }
+    this.skip(newline);
     for (i = 0; ; i++) {
       ch = this.peekChar();
+      if (!ch) { return; }
       if (ch === " ") {
         ch = this.getChar();
       } else {
@@ -59,14 +67,6 @@ SetStream.prototype = {
       }
     }
     this.indent = i;
-    ch = this.peekChar();
-    if (ch === '#') {
-      // Comment!
-      while (!newline.test(ch)) {
-        ch = this.getChar();
-      }
-      this.skipNewline();
-    }
   },
   error: function(msg) {
     throw new Error(this.filename + ':' + this.line + ':' + this.column +

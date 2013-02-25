@@ -56,34 +56,39 @@ Primitives:
 ![String spec](http://json.org/string.gif)
 ![Number spec](http://json.org/number.gif)
 
-dictionary:
+- dictionary:
 
     keyValue (newline keyValue)*
 
-newline: ASCII character `0x0A` (or `0x0D`, but don't use it).
+- newline: ASCII character `0x0A` (or `0x0D`, but don't use it).
 
-keyValue of indentation `indent`:
+- keyValue of indentation `indent`:
 
     (unquotedKey OR string) : unquotedPrimitive
     OR
     (unquotedKey OR string) : newline indent primitive
 
-unquotedKey:
+- unquotedKey:
 
     (any unicode character but `:` and `-` and `"` and digit)
     (any unicode character but `:`)*
 
-unquotedPrimitive:
+- unquotedPrimitive:
 
     any primitive but dictionary
     OR
     dictionary not starting with `"`
 
-indent: sequence of ASCII characters `0x20`. Nothing else.
+- indent: sequence of ASCII characters `0x20`. Nothing else.
 
-array of indentation `indent`:
+- array of indentation `indent`:
 
-    `-` (` `)+ primitive (newline indent `-` primitive)*
+    `-` (whitespace)+ primitive (newline indent `-` primitive)*
+
+- whitespace:
+
+    (Unicode points 0x9 OR 0x20 OR 0xA0 OR 0x2000 - 0x200D OR 0x202F OR 0x205F
+    OR 0x2060 OR 0x3000 OR 0xFEFF)+
 
 
 ## Functional requirements
