@@ -1,16 +1,6 @@
 var assert = require('assert');
 var set = require('./set');
 
-console.log(JSON.stringify(set.parse('\
-# Comments. They\'re actually useful.\n\
-name: "The Settings File Format"\n\
-version: 1.0\n\
-That simple?: yes\n\
-Can I nest?:\n\
-  - "You can nest lists…"\n\
-  - and: "obviously"\n\
-    objects: "too!"'), null, 2));
-
 assert.deepEqual(set.parse('\
 # Comments. They\'re actually useful.\n\
 name: "The Settings File Format"\n\
