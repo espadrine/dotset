@@ -349,7 +349,7 @@ function wrapKey(key) {
 }
 
 
-if (!window.module) {
+if (!!window.module) {
   // node.js environment.
   module.exports = SET;
 } else {
