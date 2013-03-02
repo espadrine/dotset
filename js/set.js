@@ -124,7 +124,7 @@ SetStream.prototype = {
     }
     slice = this.text.slice(this.offset, this.offset + 2);
     if (slice === "no") {
-      if (newline.test(this.text[this.offset + 3])) {
+      if (newline.test(this.text[this.offset + 2])) {
         // Boolean!
         for (i = 0; i < 2; i++) { this.getChar(); }
         return false;
