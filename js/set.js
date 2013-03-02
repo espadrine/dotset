@@ -141,6 +141,7 @@ SetStream.prototype = {
     this.getChar();  // Go past the ".
     for (;;) {
       ch = this.getChar();
+      if (!ch) { this.error("Unfinished string."); }
       if (ch === '\\') {
         ch = this.getChar();
         if (!stringEscape.test(ch)) {
