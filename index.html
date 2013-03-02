@@ -1,0 +1,88 @@
+<!doctype html><meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<title> Try Dot Set! </title>
+<link rel="stylesheet" href="cm/lib/codemirror.css">
+<style>
+  html, .CodeMirror, .CodeMirror-scroll {
+    height: 100%;
+    box-shadow: 0px 0px 3px #fcfcfc inset;
+    color: #6e3d75;
+  }
+  html { font-family: sans-serif; }
+  .CodeMirror {
+    height: calc(100% - 50px);
+  }
+  body {
+    margin: auto;
+    width: 90%;
+    height: 100%;
+  }
+  #leditor, #reditor {
+    width: 50%;
+    height: 100%;
+    float: left;
+  }
+  #leditor h1, #reditor h1 {
+    text-align: center;
+    height: 50px;
+    margin: 0;
+  }
+</style>
+
+<div id='leditor'>
+  <h1> Settings File </h1>
+  <textarea id='lcode'></textarea>
+</div>
+<div id='reditor'>
+  <h1> JSON Equivalent </h1>
+  <textarea id='rcode'></textarea>
+</div>
+
+<!-- Start up the editor instances. -->
+<script src="cm/lib/codemirror.js"></script>
+<script src="cm/mode/javascript/javascript.js"></script>
+<script src="js/set.js"></script>
+<script>
+(function SetEditor() {
+// By default, CM maps the Tab key to the insertion of an actual tab.
+function betterTab(cm) {
+  cm.replaceSelection(cm.options.indentWithTabs? "\t":
+      Array(cm.options.indentUnit + 1).join(" "), "end", "+input");
+}
+var editors = [CodeMirror.fromTextArea(document.getElementById("lcode"), {
+    indentUnit: 2,
+    electricChars: false,
+    extraKeys: { Tab: betterTab }
+  }),
+  CodeMirror.fromTextArea(document.getElementById("rcode"), {
+    indentUnit: 2,
+    mode: { name: "javascript", json: true },
+    extraKeys: { Tab: betterTab }
+  })
+];
+window.editors = editors;
+
+function setParse(setString) {
+  return JSON.stringify(SET.parse(setString), null, 2);
+}
+function setStringify(jsonString) {
+  return SET.stringify(JSON.parse(jsonString));
+}
+
+function cmChange(editor) {
+  // Get the editor id.
+  var edid = editors.indexOf(editor);
+  try {
+    editors[(edid + 1) % 2].setValue
+      ((edid? setStringify: setParse)(editor.getValue()));
+  } catch(e) {}
+}
+
+editors.forEach(function(editor) {
+  editor.on('focus', function(editor) {
+    editors.forEach(function(editor) { editor.off('change', cmChange); });
+    editor.on('change', cmChange);
+  });
+});
+}());
+</script>
