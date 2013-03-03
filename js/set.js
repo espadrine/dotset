@@ -333,11 +333,12 @@ function set_stringify(object, sizeIndent, indentation, noIndentFirstItem) {
           + set_stringify(object[i], sizeIndent, indentation + 1, true)
           + '\n';
     }
-  } else if (typeof object === "object") {
+  } else {
     i = 0;
     for (var e in object) {
       str += ((noIndentFirstItem && i === 0)? "": indent) + wrapKey(e) + ":"
-          + ((typeof object[e] === "object" && object[e] !== null)?
+          + ((typeof object[e] === "object" && object[e] != null
+              && (object[e] instanceof Array? object[e].length > 0: true))?
               "\n": " ")
           + set_stringify(object[e], sizeIndent, indentation + 1)
           + '\n';
