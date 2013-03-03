@@ -174,8 +174,11 @@ SetStream.prototype = {
       ch = this.getChar();
     }
     if (ch === "0") {
-      // Expect a dot.
       ch = this.getChar();  // skip the dot.
+      if (whiteSpace.test(ch)) {
+        return 0;
+      }
+      // Expect a dot.
       if (ch !== ".") {
         // ERROR
         this.error('Number starting with 0 must be floating-point.');
