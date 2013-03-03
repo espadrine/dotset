@@ -328,7 +328,8 @@ function set_stringify(object, sizeIndent, indentation, noIndentFirstItem) {
     return JSON.stringify(object);
   } else if (object instanceof Array) {
     if (object.length === 0) {
-      return "nil";
+      // Compatibility with JSON.
+      return "length: 0";
     }
     for (i = 0; i < object.length; i++) {
       str += ((noIndentFirstItem && i === 0)? "": indent) + "- "
