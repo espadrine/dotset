@@ -7,6 +7,7 @@
     height: 100%;
     box-shadow: 0px 0px 3px #fcfcfc inset;
     color: #6e3d75;
+    font-size: 1.1em;
   }
   html { font-family: sans-serif; }
   .CodeMirror {
@@ -49,7 +50,8 @@ function betterTab(cm) {
   cm.replaceSelection(cm.options.indentWithTabs? "\t":
       Array(cm.options.indentUnit + 1).join(" "), "end", "+input");
 }
-var editors = [CodeMirror.fromTextArea(document.getElementById("lcode"), {
+var editors = [
+  CodeMirror.fromTextArea(document.getElementById("lcode"), {
     indentUnit: 2,
     electricChars: false,
     extraKeys: { Tab: betterTab }
@@ -75,7 +77,9 @@ function cmChange(editor) {
   try {
     editors[(edid + 1) % 2].setValue
       ((edid? setStringify: setParse)(editor.getValue()));
-  } catch(e) {}
+  } catch(e) {
+    console.error(e);
+  }
 }
 
 editors.forEach(function(editor) {
@@ -84,5 +88,243 @@ editors.forEach(function(editor) {
     editor.on('change', cmChange);
   });
 });
+
+// Hey, automatic generation of a Settings file!
+
+var nouns = [
+  'server',
+  'title',
+  'name',
+  'database',
+  'IP',
+  'client',
+  'author',
+  'contributor',
+  'description',
+  'version',
+  'homepage',
+  'repository',
+  'type',
+  'URL',
+  'domain',
+  'script',
+  'test',
+  'engine',
+  'unicorn'
+];
+var verbs = [
+  'eat',
+  'hug',
+  'slap',
+  'kill',
+  'include',
+  'ban',
+  'help',
+  'compute'
+];
+
+function pick(list) {
+  return list[Math.floor(Math.random()*list.length)];
+}
+function makeSentence() {
+  var many = Math.random() < 0.5;
+  return 'The ' + (many? plural(pick(nouns)): pick(nouns))
+    + " " + (many? pick(verbs): plural(pick(verbs)))
+    + " the " + pick(nouns) + ".";
+}
+function plural(noun) {
+  if (noun[noun.length - 1] === 'y') {
+    noun = noun.slice(0, -1) + 'ie';
+  }
+  return noun + 's';
+}
+
+function pickNumber(max) {
+  return Math.ceil(Math.random() * max);
+}
+
+// Item generation.
+
+function createDictionary() {
+  var obj = {};
+  var key, val
+  var num = pickNumber(7);
+  for (var i = 0; i < num; i++) {
+    key = pick(nouns);
+    val = createObject();
+    if (val instanceof Array || typeof val === 'number') {
+      key = plural(key);
+    }
+    obj[key] = val;
+  }
+  return obj;
+}
+
+function createArray() {
+  var arr = new Array(pickNumber(5));
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = createObject();
+  }
+  return arr;
+}
+
+function createString() {
+  return pick([
+    [0,0,0,0].map(function(i) { return pickNumber(256) - 1; }).join('.'),
+    'http://' + pick(verbs) + '-' + pick(nouns) +
+        '.' + pick(['com', 'net', 'org']) + '/',
+    makeSentence()
+  ]);
+}
+
+function createNumber() {
+  var num = 0;
+  num = pick([
+    pickNumber(10),
+    pickNumber(100),
+    Math.random() * 10e6
+  ]);
+  if (Math.random() < 0.5) { num |= 0; }
+  return num;
+}
+
+function createBoolean() { return pick([true, false]); }
+function createNil() {
+  // Nil is boring, special treatment:
+  if (Math.random() < 0.5) {
+    return createObject();
+  }
+  return null;
+}
+
+var nodes = [
+  createObject,
+  createArray,
+  createString,
+  createNumber,
+  createBoolean,
+  createNil
+];
+
+// We don't want a possibly infinite algorithm do we?
+var hitCount = 0;
+function createObject() {
+  if (hitCount++ === 20) {
+    nodes = nodes.slice(2);
+  }
+  return pick(nodes)();
+}
+
+
+// I'm adding a real-life example from Sublime Text.
+
+var defaultSublime = {
+  "color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
+  "font_face": "",
+  "font_size": 10,
+  "font_options": [],
+  "word_separators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?",
+  "line_numbers": true,
+  "gutter": true,
+  "margin": 4,
+  "fold_buttons": true,
+  "fade_fold_buttons": true,
+  "rulers": [],
+  "spell_check": false,
+  "tab_size": 4,
+  "translate_tabs_to_spaces": false,
+  "use_tab_stops": true,
+  "detect_indentation": true,
+  "auto_indent": true,
+  "smart_indent": true,
+  "indent_to_bracket": false,
+  "trim_automatic_white_space": true,
+  "word_wrap": "auto",
+  "wrap_width": 0,
+  "indent_subsequent_lines": true,
+  "draw_centered": false,
+  "auto_match_enabled": true,
+  "dictionary": "Packages/Language - English/en_US.dic",
+  "draw_minimap_border": false,
+  "highlight_line": false,
+  "caret_style": "smooth",
+  "match_brackets": true,
+  "match_brackets_content": true,
+  "match_brackets_square": true,
+  "match_brackets_braces": true,
+  "match_brackets_angle": false,
+  "match_tags": true,
+  "match_selection": true,
+  "line_padding_top": 0,
+  "line_padding_bottom": 0,
+  "scroll_past_end": true,
+  "move_to_limit_on_up_down": false,
+  "draw_white_space": "selection",
+  "draw_indent_guides": true,
+  "indent_guide_options": ["draw_normal"],
+  "trim_trailing_white_space_on_save": false,
+  "ensure_newline_at_eof_on_save": false,
+  "save_on_focus_lost": false,
+  "fallback_encoding": "Western (Windows 1252)",
+  "default_encoding": "UTF-8",
+  "enable_hexadecimal_encoding": true,
+  "default_line_ending": "system",
+  "tab_completion": true,
+  "auto_complete": true,
+  "auto_complete_size_limit": 4194304,
+  "auto_complete_delay": 50,
+  "auto_complete_selector": "source - comment",
+  "auto_complete_triggers": [ {"selector": "text.html", "characters": "<"} ],
+  "auto_complete_commit_on_tab": false,
+  "auto_complete_with_fields": false,
+  "shift_tab_unindent": false,
+  "find_selected_text": true,
+  "drag_text": true,
+  "theme": "Default.sublime-theme",
+  "scroll_speed": 1.0,
+  "tree_animation_enabled": true,
+  "highlight_modified_tabs": false,
+  "show_tab_close_buttons": true,
+  "bold_folder_labels": false,
+  "use_simple_full_screen": false,
+  "overlay_scroll_bars": "system",
+  "hot_exit": true,
+  "remember_open_files": true,
+  "open_files_in_new_window": true,
+  "create_window_at_startup": true,
+  "close_windows_when_empty": false,
+  "show_full_path": true,
+  "show_panel_on_build": true,
+  "preview_on_click": true,
+  "folder_exclude_patterns": [".svn", ".git", ".hg", "CVS"],
+  "file_exclude_patterns": ["*.pyc", "*.pyo", "*.exe", "*.dll", "*.obj","*.o", "*.a", "*.lib", "*.so", "*.dylib", "*.ncb", "*.sdf", "*.suo", "*.pdb", "*.idb", ".DS_Store", "*.class", "*.psd", "*.db"],
+  "binary_file_patterns": ["*.jpg", "*.jpeg", "*.png", "*.gif", "*.ttf", "*.tga", "*.dds", "*.ico", "*.eot", "*.pdf", "*.swf", "*.jar", "*.zip"],
+  "ignored_packages": ["Vintage"]
+};
+
+var randomObject = (function createRandomObject() {
+  try {
+    if (Math.random() < 0.08) {
+      return defaultSublime;
+    }
+    return ((Math.random() < 0.5)? createDictionary: createArray)();
+  } catch(e) {
+    return createRandomObject();
+  }
+}());
+var comments = ([
+  'Yes, this is nonesense, random data.',
+  'The files on both sides are synchronized.',
+  'Find the secret meaning of all this!',
+  'You can edit both sides, .set and .json!',
+  'Keep calm and carry on.',
+  'I am embracing the halting problem with this random generation thing.',
+  'Because some things are, and some things are not!',
+  'Colorless green ideas sleep furiously.',
+  'I wish the toaster to be happy, too.'
+]).map(function(item) { return '# ' + item + '\n\n'; });
+editors[0].setValue(pick(comments) + SET.stringify(randomObject));
+editors[1].setValue(JSON.stringify(randomObject, null, 2));
+
 }());
 </script>
