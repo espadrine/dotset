@@ -244,18 +244,18 @@ SetStream.prototype = {
   readArray: function() {
     var ar, ch, indent;
     ar = [];
-    indent = this.currentIndent();
-    while (this.currentIndent() >= indent) {
+    indent = this.column;
+    console.log('indentation:', indent);
+    do {
       ch = this.getChar();
       if (!ch) { break; }
       if (ch !== "-") {
         this.error('Invalid array, found ' + JSON.stringify(ch) +
             ' instead of "-".');
       }
-      indent = this.currentIndent();  // Readjust indentation.
       ar.push(this.readPrimitive());
       this.skipWhitespace();
-    }
+    } while (this.currentIndent() >= indent);
     return ar;
   },
 
@@ -263,9 +263,8 @@ SetStream.prototype = {
   readDictionary: function() {
     var start, end, key, ch, indent, dict;
     dict = {};
-    indent = this.currentIndent();
-    while (this.currentIndent() >= indent) {
-
+    indent = this.column;
+    do {
       ch = this.peekChar();
       if (ch === '"') {
         key = this.readString();
@@ -284,10 +283,9 @@ SetStream.prototype = {
       }
       if (!ch) { break; }
 
-      indent = this.currentIndent();  // Readjust indentation.
       dict[key] = this.readPrimitive();
       this.skipWhitespace();
-    }
+    } while (this.currentIndent() >= indent);
 
     return dict;
   }
