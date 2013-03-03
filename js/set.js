@@ -8,6 +8,7 @@ var SET = {};
 
 var whiteSpace = new RegExp('[\n\r \t\u0009\u0020\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u200c\u200d\u202f\u205f\u2060\u3000\ufeff]');
 var spaces = new RegExp('[ \t\u0009\u0020\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u200c\u200d\u202f\u205f\u2060\u3000\ufeff]');
+var bsnewline = new RegExp('\\\\[\n\r]');
 var newline = new RegExp('[\n\r]');
 var stringEscape = new RegExp('["\\\\\/bfnrtu\n]');
 var hexadecimal = new RegExp('[a-fA-F0-9]');
@@ -162,7 +163,9 @@ SetStream.prototype = {
         break;
       }
     }
-    return JSON.parse(this.text.slice(start, end));
+    return JSON.parse(this.text.slice(start, end)
+        .replace(bsnewline, '')
+        .replace(newline, '\\n'));
   },
 
   // We're at the start of a number.
