@@ -177,7 +177,7 @@ SetStream.prototype = {
       ch = this.getChar();
     }
     if (ch === "0") {
-      ch = this.getChar();  // skip the dot.
+      ch = this.peekChar();  // skip the dot.
       if (whiteSpace.test(ch)) {
         return 0;
       }
@@ -186,6 +186,7 @@ SetStream.prototype = {
         // ERROR
         this.error('Number starting with 0 must be floating-point.');
       }
+      ch = this.getChar();  // skip the dot.
       this.skipNumberDecimals();
     } else if (digit.test(ch)) {
       for (;;) {
