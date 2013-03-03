@@ -126,12 +126,6 @@ var verbs = [
 function pick(list) {
   return list[Math.floor(Math.random()*list.length)];
 }
-function makeSentence() {
-  var many = Math.random() < 0.5;
-  return 'The ' + (many? plural(pick(nouns)): pick(nouns))
-    + " " + (many? pick(verbs): plural(pick(verbs)))
-    + " the " + pick(nouns) + ".";
-}
 function plural(noun) {
   if (noun[noun.length - 1] === 'y') {
     noun = noun.slice(0, -1) + 'ie';
@@ -145,13 +139,13 @@ function pickNumber(max) {
 
 // Item generation.
 
-function createDictionary() {
+function makeDictionary() {
   var obj = {};
   var key, val
   var num = pickNumber(7);
   for (var i = 0; i < num; i++) {
     key = pick(nouns);
-    val = createObject();
+    val = makeObject();
     if (val instanceof Array || typeof val === 'number') {
       key = plural(key);
     }
@@ -160,24 +154,33 @@ function createDictionary() {
   return obj;
 }
 
-function createArray() {
-  var arr = new Array(pickNumber(5));
+function makeArray() {
+  var arr = new Array(pickNumber(7) - 1);
+  var creator = (Math.random() < 0.5)? makeObject:
+                                       pick(nodes);
   for (var i = 0; i < arr.length; i++) {
-    arr[i] = createObject();
+    arr[i] = creator();
   }
   return arr;
 }
 
-function createString() {
-  return pick([
-    [0,0,0,0].map(function(i) { return pickNumber(256) - 1; }).join('.'),
-    'http://' + pick(verbs) + '-' + pick(nouns) +
-        '.' + pick(['com', 'net', 'org']) + '/',
-    makeSentence()
-  ]);
+function makeStringIP() {
+  return [0,0,0,0].map(function(i) {
+    return pickNumber(256) - 1;
+  }).join('.');
+}
+function makeStringURL() {
+  return 'http://' + pick(verbs) + '-' + pick(nouns) +
+         '.' + pick(['com', 'net', 'org']) + '/';
+}
+function makeSentence() {
+  var many = Math.random() < 0.5;
+  return 'The ' + (many? plural(pick(nouns)): pick(nouns))
+    + " " + (many? pick(verbs): plural(pick(verbs)))
+    + " the " + pick(nouns) + ".";
 }
 
-function createNumber() {
+function makeNumber() {
   var num = 0;
   num = pick([
     pickNumber(10),
@@ -188,29 +191,35 @@ function createNumber() {
   return num;
 }
 
-function createBoolean() { return pick([true, false]); }
-function createNil() {
+function makeBoolean() { return pick([true, false]); }
+function makeNil() {
   // Nil is boring, special treatment:
   if (Math.random() < 0.5) {
-    return createObject();
+    return makeObject();
   }
   return null;
 }
 
-var nodes = [
-  createObject,
-  createArray,
-  createString,
-  createNumber,
-  createBoolean,
-  createNil
+var recursiveNodes = [
+  makeDictionary,
+  makeArray
 ];
+var stringNodes = [
+  makeStringIP,
+  makeStringURL,
+  makeSentence
+];
+var leafNodes = [
+  makeNumber,
+  makeBoolean
+].concat(stringNodes);
+var nodes = recursiveNodes.concat(leafNodes);
 
 // We don't want a possibly infinite algorithm do we?
 var hitCount = 0;
-function createObject() {
+function makeObject() {
   if (hitCount++ === 20) {
-    nodes = nodes.slice(2);
+    nodes = leafNodes;
   }
   return pick(nodes)();
 }
@@ -302,14 +311,14 @@ var defaultSublime = {
   "ignored_packages": ["Vintage"]
 };
 
-var randomObject = (function createRandomObject() {
+var randomObject = (function makeRandomObject() {
   try {
     if (Math.random() < 0.08) {
       return defaultSublime;
     }
-    return ((Math.random() < 0.5)? createDictionary: createArray)();
+    return ((Math.random() < 0.5)? makeDictionary: makeArray)();
   } catch(e) {
-    return createRandomObject();
+    return makeRandomObject();
   }
 }());
 var comments = ([
