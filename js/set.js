@@ -322,6 +322,9 @@ function set_stringify(object, sizeIndent, indentation, noIndentFirstItem) {
   } else if (typeof object === "string") {
     return JSON.stringify(object);
   } else if (object instanceof Array) {
+    if (object.length === 0) {
+      return "nil";
+    }
     for (i = 0; i < object.length; i++) {
       str += ((noIndentFirstItem && i === 0)? "": indent) + "- "
           + set_stringify(object[i], sizeIndent, indentation + 1, true)
