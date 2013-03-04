@@ -13,9 +13,9 @@
   },
   "main": "js/set.js",
   "scripts": {
-    "test": "node js/test",
-    "engines": {
-      "node": ">=0.4.0"
-    }
+    "test": "node js/test"
+  },
+  "engines": {
+    "node": ">=0.4.0"
   }
 }
