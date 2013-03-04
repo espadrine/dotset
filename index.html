@@ -47,8 +47,12 @@
 (function SetEditor() {
 // By default, CM maps the Tab key to the insertion of an actual tab.
 function betterTab(cm) {
-  cm.replaceSelection(cm.options.indentWithTabs? "\t":
-      Array(cm.options.indentUnit + 1).join(" "), "end", "+input");
+  if (cm.somethingSelected()) {
+    cm.indentSelection("add");
+  } else {
+    cm.replaceSelection(cm.getOption("indentWithTabs")? "\t":
+      Array(cm.getOption("indentUnit") + 1).join(" "), "end", "+input");
+  }
 }
 var editors = [
   CodeMirror.fromTextArea(document.getElementById("lcode"), {
