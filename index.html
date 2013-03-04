@@ -184,13 +184,14 @@ function makeSentence() {
     + " the " + pick(nouns) + ".";
 }
 
-function makeNumber() {
-  var num = 0;
-  num = pick([
-    pickNumber(10),
-    pickNumber(100),
-    Math.random() * 10e6
-  ]);
+function makeSmallNumber() {
+  return pickNumber(10);
+}
+function makeMediumNumber() {
+  return pickNumber(100);
+}
+function makeBigNumber() {
+  var num = Math.random() * 10e6;
   if (Math.random() < 0.5) { num |= 0; }
   return num;
 }
@@ -213,10 +214,14 @@ var stringNodes = [
   makeStringURL,
   makeSentence
 ];
+var numberNodes = [
+  makeSmallNumber,
+  makeMediumNumber,
+  makeBigNumber
+];
 var leafNodes = [
-  makeNumber,
   makeBoolean
-].concat(stringNodes);
+].concat(numberNodes, stringNodes);
 var nodes = recursiveNodes.concat(leafNodes);
 
 // We don't want a possibly infinite algorithm do we?
