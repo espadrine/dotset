@@ -1,7 +1,5 @@
 // Copyright © Thaddee Tyl. MIT license.
-(function (window, undefined) {
-
-var SET = {};
+(function (SET, undefined) {
 
 // Parse code.
 //
@@ -96,7 +94,7 @@ SetStream.prototype = {
     }
     if (ch === '-') {
       ch = this.text[this.offset + 1];
-      if (whiteSpace.test(ch)) {
+      if (whiteSpace.test(ch) || ch === '.') {
         // Array!
         return this.readArray();
       } else {
@@ -246,13 +244,15 @@ SetStream.prototype = {
     var ar, ch, indent;
     ar = [];
     indent = this.column;
-    console.log('indentation:', indent);
     do {
       ch = this.getChar();
       if (!ch) { break; }
       if (ch !== "-") {
         this.error('Invalid array, found ' + JSON.stringify(ch) +
             ' instead of "-".');
+      } else if (this.peekChar() === '.') {
+        this.getChar();
+        return [];
       }
       ar.push(this.readPrimitive());
       this.skipWhitespace();
@@ -328,8 +328,7 @@ function set_stringify(object, sizeIndent, indentation, noIndentFirstItem) {
     return JSON.stringify(object);
   } else if (object instanceof Array) {
     if (object.length === 0) {
-      // Compatibility with JSON.
-      return "length: 0";
+      return "-.";
     }
     for (i = 0; i < object.length; i++) {
       str += ((noIndentFirstItem && i === 0)? "": indent) + "- "
@@ -361,11 +360,5 @@ function wrapKey(key) {
 }
 
 
-if (!!window.module) {
-  // node.js environment.
-  module.exports = SET;
-} else {
-  window.SET = SET;
-}
+}((typeof exports === 'object')? exports: (this.SET = {})));
 
-}(this));
