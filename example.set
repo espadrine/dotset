@@ -5,9 +5,11 @@ contributors:
 
 # Know thyself…
 name: "dotset"
-description: "The Settings File Format\nOne file format to set them all."
-version: "2013.02.25"
-"homepage": "http://github.com/espadrine/set"
+description: "\
+The Settings File Format
+One file format to set them all."
+version: "2013.03.04"
+homepage: "http://github.com/espadrine/set"
 
 # Technical information…
 repository:
@@ -15,5 +17,4 @@ repository:
   url: "git://github.com/espadrine/set.git"
 main: "js/set.js"
 scripts: test: "node js/test"
-engines: node:
-  ">=0.4.0"
+engines: node: ">=0.4.0"
