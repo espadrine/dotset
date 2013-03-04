@@ -236,100 +236,106 @@ function makeObject() {
 
 // I'm adding a real-life example from Sublime Text.
 
-var defaultSublime = {
-  "color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
-  "font_face": "",
-  "font_size": 10,
-  "font_options": [],
-  "word_separators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?",
-  "line_numbers": true,
-  "gutter": true,
-  "margin": 4,
-  "fold_buttons": true,
-  "fade_fold_buttons": true,
-  "rulers": [],
-  "spell_check": false,
-  "tab_size": 4,
-  "translate_tabs_to_spaces": false,
-  "use_tab_stops": true,
-  "detect_indentation": true,
-  "auto_indent": true,
-  "smart_indent": true,
-  "indent_to_bracket": false,
-  "trim_automatic_white_space": true,
-  "word_wrap": "auto",
-  "wrap_width": 0,
-  "indent_subsequent_lines": true,
-  "draw_centered": false,
-  "auto_match_enabled": true,
-  "dictionary": "Packages/Language - English/en_US.dic",
-  "draw_minimap_border": false,
-  "highlight_line": false,
-  "caret_style": "smooth",
-  "match_brackets": true,
-  "match_brackets_content": true,
-  "match_brackets_square": true,
-  "match_brackets_braces": true,
-  "match_brackets_angle": false,
-  "match_tags": true,
-  "match_selection": true,
-  "line_padding_top": 0,
-  "line_padding_bottom": 0,
-  "scroll_past_end": true,
-  "move_to_limit_on_up_down": false,
-  "draw_white_space": "selection",
-  "draw_indent_guides": true,
-  "indent_guide_options": ["draw_normal"],
-  "trim_trailing_white_space_on_save": false,
-  "ensure_newline_at_eof_on_save": false,
-  "save_on_focus_lost": false,
-  "fallback_encoding": "Western (Windows 1252)",
-  "default_encoding": "UTF-8",
-  "enable_hexadecimal_encoding": true,
-  "default_line_ending": "system",
-  "tab_completion": true,
-  "auto_complete": true,
-  "auto_complete_size_limit": 4194304,
-  "auto_complete_delay": 50,
-  "auto_complete_selector": "source - comment",
-  "auto_complete_triggers": [ {"selector": "text.html", "characters": "<"} ],
-  "auto_complete_commit_on_tab": false,
-  "auto_complete_with_fields": false,
-  "shift_tab_unindent": false,
-  "find_selected_text": true,
-  "drag_text": true,
-  "theme": "Default.sublime-theme",
-  "scroll_speed": 1.0,
-  "tree_animation_enabled": true,
-  "highlight_modified_tabs": false,
-  "show_tab_close_buttons": true,
-  "bold_folder_labels": false,
-  "use_simple_full_screen": false,
-  "overlay_scroll_bars": "system",
-  "hot_exit": true,
-  "remember_open_files": true,
-  "open_files_in_new_window": true,
-  "create_window_at_startup": true,
-  "close_windows_when_empty": false,
-  "show_full_path": true,
-  "show_panel_on_build": true,
-  "preview_on_click": true,
-  "folder_exclude_patterns": [".svn", ".git", ".hg", "CVS"],
-  "file_exclude_patterns": ["*.pyc", "*.pyo", "*.exe", "*.dll", "*.obj","*.o", "*.a", "*.lib", "*.so", "*.dylib", "*.ncb", "*.sdf", "*.suo", "*.pdb", "*.idb", ".DS_Store", "*.class", "*.psd", "*.db"],
-  "binary_file_patterns": ["*.jpg", "*.jpeg", "*.png", "*.gif", "*.ttf", "*.tga", "*.dds", "*.ico", "*.eot", "*.pdf", "*.swf", "*.jar", "*.zip"],
-  "ignored_packages": ["Vintage"]
-};
+var defaultSublime = '\
+# Sets the colors used within the text area\n\
+color_scheme: "Packages/Color Scheme - Default/Monokai.tmTheme"\n\
+\n\
+# Note that the font_face and font_size are overriden in the platform\n\
+# specific settings file, for example, "Preferences (Linux).sublime-settings".\n\
+# Because of this, setting them here will have no effect: you must set them\n\
+# in your User File Preferences.\n\
+font_face: ""\n\
+font_size: 10\n\
+\n\
+# Valid options are "no_bold", "no_italic", "no_antialias", "gray_antialias",\n\
+# "subpixel_antialias", "no_round" (OS X only) and "directwrite" (Windows only)\n\
+font_options: -.\n\
+\n\
+# Characters that are considered to separate words\n\
+word_separators: "./\\\\()\\"\'-:,.;<>~!@#$%^&*|+=[]{}`~?"\n\
+\n\
+# Set to false to prevent line numbers being drawn in the gutter\n\
+line_numbers: yes\n\
+\n\
+# Set to false to hide the gutter altogether\n\
+gutter: yes\n\
+\n\
+# Spacing between the gutter and the text\n\
+margin: 4\n\
+\n\
+# Columns in which to display vertical rulers\n\
+rulers: -.\n\
+\n\
+# Set to true to turn spell checking on by default\n\
+spell_check: no\n\
+\n\
+# The number of spaces a tab is considered equal to\n\
+tab_size: 4\n\
+\n\
+# Set to true to insert spaces when tab is pressed\n\
+translate_tabs_to_spaces: no\n\
+\n\
+# If translate_tabs_to_spaces is true, use_tab_stops will make tab and\n\
+# backspace insert/delete up to the next tabstop\n\
+use_tab_stops: yes\n\
+\n\
+# Makes auto indent a little smarter, e.g., by indenting the next line\n\
+# after an if statement in C. Requires auto_indent to be enabled.\n\
+smart_indent: yes\n\
+\n\
+# Encoding used when saving new files, and files opened with an undefined\n\
+# encoding (e.g., plain ascii files). If a file is opened with a specific\n\
+# encoding (either detected or given explicitly), this setting will be\n\
+# ignored, and the file will be saved with the encoding it was opened\n\
+# with.\n\
+default_encoding: "UTF-8"\n\
+\n\
+# Files containing null bytes are opened as hexadecimal by default\n\
+enable_hexadecimal_encoding: yes\n\
+\n\
+# Determines what character(s) are used to terminate each line in new files.\n\
+# Valid values are \'system\' (whatever the OS uses), \'windows\' (CRLF) and\n\
+# \'unix\' (LF only).\n\
+default_line_ending: "system"\n\
+\n\
+# When enabled, pressing tab will insert the best matching completion.\n\
+# When disabled, tab will only trigger snippets or insert a tab.\n\
+# Shift+tab can be used to insert an explicit tab when tab_completion is\n\
+# enabled.\n\
+tab_completion: yes\n\
+\n\
+# Enable auto complete to be triggered automatically when typing.\n\
+auto_complete: yes\n\
+\n\
+# The maximum file size where auto complete will be automatically triggered.\n\
+auto_complete_size_limit: 4194304\n\
+\n\
+# The delay, in ms, before the auto complete window is shown after typing\n\
+auto_complete_delay: 50\n\
+\n\
+# Controls what scopes auto complete will be triggered in\n\
+auto_complete_selector: "source - comment"\n\
+\n\
+# Additional situations to trigger auto complete\n\
+auto_complete_triggers:\n\
+  - selector: "text.html"\n\
+    characters: "<"\n\
+\n\
+# folder_exclude_patterns and file_exclude_patterns control which files\n\
+# are listed in folders on the side bar. These can also be set on a per-\n\
+# project basis.\n\
+folder_exclude_patterns:\n\
+  - ".svn"\n\
+  - ".git"\n\
+  - ".hg"\n\
+  - "CVS"\n\
+\n\
+# List any packages to ignore here. When removing entries from this list,\n\
+# a restart may be required if the package contains plugins.\n\
+ignored_packages:\n\
+  - "Vintage"\n\
+';
 
-var randomObject = (function makeRandomObject() {
-  try {
-    if (Math.random() < 0.08) {
-      return defaultSublime;
-    }
-    return ((Math.random() < 0.5)? makeDictionary: makeArray)();
-  } catch(e) {
-    return makeRandomObject();
-  }
-}());
 var comments = ([
   'Yes, this is nonesense, random data.',
   'The files on both sides are synchronized.',
@@ -342,8 +348,21 @@ var comments = ([
   'Colorless green ideas sleep furiously.',
   'I wish the toaster to be happy, too.'
 ]).map(function(item) { return '# ' + item + '\n\n'; });
-editors[0].setValue(pick(comments) + SET.stringify(randomObject));
-editors[1].setValue(JSON.stringify(randomObject, null, 2));
+
+var setFile = (function getSetFile() {
+  if (Math.random() < 0.08) {
+    return defaultSublime;
+  }
+  return pick(comments) + SET.stringify(function makeRandomObject() {
+    try {
+      return ((Math.random() < 0.5)? makeDictionary: makeArray)();
+    } catch(e) {
+      return makeRandomObject();
+    }
+  }());
+}());
+editors[0].setValue(setFile);
+editors[1].setValue(JSON.stringify(SET.parse(setFile), null, 2));
 
 }());
 </script>
