@@ -110,19 +110,20 @@ SetStream.prototype = {
       // Number!
       return this.readNumber();
     }
+    slice = this.text.slice(this.offset, this.offset + 4);
+    if (slice === "null") {
+      if (newline.test(this.text[this.offset + 4])) {
+        // Null!
+        for (i = 0; i < 4; i++) { this.getChar(); }
+        return null;
+      }
+    }
     slice = this.text.slice(this.offset, this.offset + 3);
     if (slice === "yes") {
       if (newline.test(this.text[this.offset + 3])) {
         // Boolean!
         for (i = 0; i < 3; i++) { this.getChar(); }
         return true;
-      }
-    }
-    if (slice === "nil") {
-      if (newline.test(this.text[this.offset + 3])) {
-        // Null!
-        for (i = 0; i < 3; i++) { this.getChar(); }
-        return null;
       }
     }
     slice = this.text.slice(this.offset, this.offset + 2);
@@ -328,7 +329,7 @@ function set_stringify(object, sizeIndent, indentation, noIndentFirstItem) {
     indent += " ";
   }
   if (object === null || object === undefined) {
-    return "nil";
+    return "null";
   } else if (object === true) {
     return "yes";
   } else if (object === false) {

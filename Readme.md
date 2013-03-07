@@ -53,7 +53,7 @@ Primitives:
 - string
 - number
 - boolean (`yes` or `no`)
-- null (`nil`)
+- null (`null`)
 
 ![String spec](http://json.org/string.gif)
 
