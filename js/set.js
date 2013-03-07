@@ -94,13 +94,17 @@ SetStream.prototype = {
     }
     if (ch === '-') {
       ch = this.text[this.offset + 1];
-      if (whiteSpace.test(ch) || ch === '.') {
+      if (whiteSpace.test(ch)) {
         // Array!
         return this.readArray();
       } else {
         // Number!
         return this.readNumber();
       }
+    }
+    if (ch === '[') {
+      // Array!
+      return this.readArray();
     }
     if (digit.test(ch)) {
       // Number!
@@ -244,15 +248,22 @@ SetStream.prototype = {
     var ar, ch, indent;
     ar = [];
     indent = this.column;
+    // Empty array.
+    ch = this.peekChar();
+    if (ch === '[') {
+      ch = this.getChar();
+      ch = this.getChar();  // closing square bracket.
+      if (ch === ']') {
+        return [];
+      } else { this.error('Invalid empty array'); }
+    }
+    // Filled array.
     do {
       ch = this.getChar();
       if (!ch) { break; }
       if (ch !== "-") {
         this.error('Invalid array, found ' + JSON.stringify(ch) +
             ' instead of "-".');
-      } else if (this.peekChar() === '.') {
-        this.getChar();
-        return [];
       }
       ar.push(this.readPrimitive());
       this.skipWhitespace();
@@ -328,7 +339,7 @@ function set_stringify(object, sizeIndent, indentation, noIndentFirstItem) {
     return JSON.stringify(object);
   } else if (object instanceof Array) {
     if (object.length === 0) {
-      return "-.";
+      return "[]";
     }
     for (i = 0; i < object.length; i++) {
       str += ((noIndentFirstItem && i === 0)? "": indent) + "- "

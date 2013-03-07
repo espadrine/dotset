@@ -10,6 +10,8 @@ A format for settings.
 
 In many ways, it's JSON with the CoffeeScript treatment.
 
+Also, it's a subset of YAML. YAML parsers parse dotset.
+
 
 ## Example
 
@@ -90,7 +92,7 @@ Also, Strings can escape newlines. Multiline strings for you.
 
 - empty array:
 
-    `-.`
+    `[]`
 
 - whitespace:
 
