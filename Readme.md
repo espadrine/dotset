@@ -17,6 +17,7 @@ Also, it's a subset of YAML. YAML parsers parse dotset.
 
 The following file `example.set`:
 
+```yaml
     # Comments. They're actually useful.
     name: "The Settings File Format"
     version: 1.0
@@ -25,9 +26,11 @@ The following file `example.set`:
       - "You can nest lists…"
       - and: "obviously"
         objects: "too!"
+```
 
 … would correspond to this JSON:
 
+```javascript
     {
       "name": "The Settings File Format",
       "version": 1.0,
@@ -40,6 +43,7 @@ The following file `example.set`:
         }
       ]
     }
+```
 
 
 ## Formal
