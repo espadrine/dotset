@@ -166,9 +166,13 @@ SetStream.prototype = {
         break;
       }
     }
-    return JSON.parse(this.text.slice(start, end)
-        .replace(bsnewline, '')
-        .replace(newline, '\\n'));
+    try {
+      return JSON.parse(this.text.slice(start, end)
+          .replace(bsnewline, '')
+          .replace(newline, '\\n'));
+    } catch(e) {
+      this.error(e.message.replace(/^JSON\.parse: /, ''));
+    }
   },
 
   // We're at the start of a number.
@@ -210,7 +214,11 @@ SetStream.prototype = {
     }
     this.skipExponent();
     end = this.offset;
-    return JSON.parse(this.text.slice(start, end));
+    try {
+      return JSON.parse(this.text.slice(start, end));
+    } catch(e) {
+      this.error(e.message.replace(/^JSON\.parse: /, ''));
+    }
   },
 
   skipNumberDecimals: function() {
