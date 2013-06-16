@@ -29,15 +29,24 @@
     height: 50px;
     margin: 0;
   }
+  #error-0, #error-1 {
+    position: fixed;
+    bottom: 0;
+    background: #f88;
+    display: none;
+    z-index: 2;
+  }
 </style>
 
 <div id='leditor'>
   <h1> Settings File </h1>
   <textarea id='lcode'></textarea>
+  <pre id='error-0'></pre>
 </div>
 <div id='reditor'>
   <h1> JSON Equivalent </h1>
   <textarea id='rcode'></textarea>
+  <pre id='error-1'></pre>
 </div>
 
 <!-- Start up the editor instances. -->
@@ -70,10 +79,27 @@ var editors = [
 window.editors = editors;
 
 function setParse(setString) {
-  return JSON.stringify(SET.parse(setString), null, 2);
+  try {
+    window['error-0'].style.display = 'none';
+    return JSON.stringify(SET.parse(setString), null, 2);
+  } catch(e) {
+    showError(0, e.message);
+    throw e;
+  }
 }
 function setStringify(jsonString) {
-  return SET.stringify(JSON.parse(jsonString));
+  try {
+    window['error-1'].style.display = 'none';
+    return SET.stringify(JSON.parse(jsonString));
+  } catch(e) {
+    showError(1, e.message);
+    throw e;
+  }
+}
+
+function showError(id, msg) {
+  window['error-' + id].textContent = msg;
+  window['error-' + id].style.display = 'block';
 }
 
 function cmChange(editor) {
@@ -82,9 +108,7 @@ function cmChange(editor) {
   try {
     editors[(edid + 1) % 2].setValue
       ((edid? setStringify: setParse)(editor.getValue()));
-  } catch(e) {
-    console.error(e);
-  }
+  } catch(e) {}
 }
 
 editors.forEach(function(editor) {
