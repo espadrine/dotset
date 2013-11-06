@@ -1,5 +1,5 @@
-The Settings File Format
-========================
+Dotset: The Settings File Format
+================================
 
 A format for settings.
 

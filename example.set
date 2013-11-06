@@ -6,9 +6,9 @@ contributors:
 # Know thyself…
 name: "dotset"
 description: "\
-The Settings File Format
+Dotset: The Settings File Format
 One file format to set them all."
-version: "2013.03.11"
+version: "2013.11.6"
 homepage: "http://github.com/espadrine/set"
 
 # Technical information…

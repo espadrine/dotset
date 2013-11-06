@@ -4,8 +4,8 @@
     "Thaddee Tyl <thaddee.tyl@gmail.com>"
   ],
   "name": "dotset",
-  "description": "The Settings File Format\nOne file format to set them all.",
-  "version": "2013.03.11",
+  "description": "Dotset: The Settings File Format\nOne file format to set them all.",
+  "version": "2013.11.6",
   "homepage": "http://github.com/espadrine/set",
   "repository": {
     "type": "git",
