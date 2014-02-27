@@ -326,9 +326,11 @@ SetStream.prototype = {
           if (!ch) { break; }
           if (ch === ":") {
             break;
+          } else if (!spaces.test(ch)) {
+            end = this.offset;
           }
         }
-        end = this.offset - 1;
+        //end = this.offset - 1;
         key = this.text.slice(start, end);
       }
       if (!ch) { break; }

@@ -74,3 +74,9 @@ assert.deepEqual(set.parse('\
   "key:value"
 ],
 "A key must be followed by `:` *and at least a space*.");
+
+assert.deepEqual(set.parse('\
+- key : value'), [
+  { "key": "value" }
+],
+"Whitespace before `:` is ignored.");
