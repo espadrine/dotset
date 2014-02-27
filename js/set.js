@@ -83,6 +83,16 @@ SetStream.prototype = {
       ' ' + msg
     );
   },
+  colonInLine: function() {
+    for (var i = this.offset; i < this.text.length; i++) {
+      if (this.text[i] === ':') {
+        return true;
+      } else if (newline.test(this.text[i])) {
+        return false;
+      }
+    }
+    return false;
+  },
 
   readPrimitive: function() {
     var ch, slice;
@@ -92,46 +102,51 @@ SetStream.prototype = {
       // String!
       return this.readString();
     }
-    if (ch === '-') {
-      ch = this.text[this.offset + 1];
-      if (whiteSpace.test(ch)) {
+    if (this.colonInLine()) {
+      // This was a key. Take it.
+      return this.readDictionary();
+    } else {
+      if (ch === '-') {
+        ch = this.text[this.offset + 1];
+        if (whiteSpace.test(ch)) {
+          // Array!
+          return this.readArray();
+        } else {
+          // Number!
+          return this.readNumber();
+        }
+      }
+      if (ch === '[') {
         // Array!
         return this.readArray();
-      } else {
+      }
+      if (digit.test(ch)) {
         // Number!
         return this.readNumber();
       }
-    }
-    if (ch === '[') {
-      // Array!
-      return this.readArray();
-    }
-    if (digit.test(ch)) {
-      // Number!
-      return this.readNumber();
-    }
-    slice = this.text.slice(this.offset, this.offset + 4);
-    if (slice === "null") {
-      if (newline.test(this.text[this.offset + 4])) {
-        // Null!
-        for (i = 0; i < 4; i++) { this.getChar(); }
-        return null;
+      slice = this.text.slice(this.offset, this.offset + 4);
+      if (slice === "null") {
+        if (newline.test(this.text[this.offset + 4])) {
+          // Null!
+          for (i = 0; i < 4; i++) { this.getChar(); }
+          return null;
+        }
       }
-    }
-    slice = this.text.slice(this.offset, this.offset + 3);
-    if (slice === "yes") {
-      if (newline.test(this.text[this.offset + 3])) {
-        // Boolean!
-        for (i = 0; i < 3; i++) { this.getChar(); }
-        return true;
+      slice = this.text.slice(this.offset, this.offset + 3);
+      if (slice === "yes") {
+        if (newline.test(this.text[this.offset + 3])) {
+          // Boolean!
+          for (i = 0; i < 3; i++) { this.getChar(); }
+          return true;
+        }
       }
-    }
-    slice = this.text.slice(this.offset, this.offset + 2);
-    if (slice === "no") {
-      if (newline.test(this.text[this.offset + 2])) {
-        // Boolean!
-        for (i = 0; i < 2; i++) { this.getChar(); }
-        return false;
+      slice = this.text.slice(this.offset, this.offset + 2);
+      if (slice === "no") {
+        if (newline.test(this.text[this.offset + 2])) {
+          // Boolean!
+          for (i = 0; i < 2; i++) { this.getChar(); }
+          return false;
+        }
       }
     }
     // Dictionary!

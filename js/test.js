@@ -46,3 +46,11 @@ Can I nest?:\n\
   - and: "obviously"\n\
     objects: "too!"\n\n\n',
 "Stringifier doesn't work on the front-page example.");
+
+assert.deepEqual(set.parse('\
+1: "one"\
+2: "two"'), {
+  "1": "one",
+  "2": "two"
+},
+"Parser supports numbers as keys.");
