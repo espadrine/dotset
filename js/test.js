@@ -60,3 +60,9 @@ string: by default'), {
   "string": "by default"
 },
 "Non-dictionary primitives are strings by default.");
+
+assert.deepEqual(set.parse('\
+- key: "value"'), [
+  { "key": "value" }
+],
+"Arrays can contain dictionaries on the same line.");

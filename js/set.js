@@ -102,19 +102,20 @@ SetStream.prototype = {
       // String!
       return this.readString();
     }
+    if (ch === '-') {
+      ch = this.text[this.offset + 1];
+      if (whiteSpace.test(ch)) {
+        // Array!
+        return this.readArray();
+      }
+    }
     if (this.colonInLine()) {
       // This was a key. Take it.
       return this.readDictionary();
     } else {
       if (ch === '-') {
-        ch = this.text[this.offset + 1];
-        if (whiteSpace.test(ch)) {
-          // Array!
-          return this.readArray();
-        } else {
-          // Number!
-          return this.readNumber();
-        }
+        // Number!
+        return this.readNumber();
       }
       if (ch === '[') {
         // Array!
