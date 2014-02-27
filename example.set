@@ -1,20 +1,20 @@
 # Authorship…
-author: "Thaddee Tyl <thaddee.tyl@gmail.com> (http://espadrine.github.com/)"
+author: Thaddee Tyl <thaddee.tyl@gmail.com> (http://espadrine.github.com/)
 contributors:
-  - "Thaddee Tyl <thaddee.tyl@gmail.com>"
+  - Thaddee Tyl <thaddee.tyl@gmail.com>
 
 # Know thyself…
-name: "dotset"
+name: dotset
 description: "\
 The Dotset File Format.
 One format to make your settings fine!"
 version: "2013.12.15"
-homepage: "http://github.com/espadrine/dotset"
+homepage: http://github.com/espadrine/dotset
 
 # Technical information…
 repository:
-  type: "git"
-  url: "git://github.com/espadrine/dotset.git"
-main: "js/set.js"
-scripts: test: "node js/test"
-engines: node: ">=0.4.0"
+  type: git
+  url: git://github.com/espadrine/dotset.git
+main: js/set.js
+scripts: test: node js/test
+engines: node: >=0.4.0
