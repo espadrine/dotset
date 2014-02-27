@@ -48,7 +48,7 @@ Can I nest?:\n\
 "Stringifier doesn't work on the front-page example.");
 
 assert.deepEqual(set.parse('\
-1: "one"\
+1: "one"\n\
 2: "two"'), {
   "1": "one",
   "2": "two"
@@ -66,3 +66,11 @@ assert.deepEqual(set.parse('\
   { "key": "value" }
 ],
 "Arrays can contain dictionaries on the same line.");
+
+assert.deepEqual(set.parse('\
+- key: value\n\
+- key:value'), [
+  { "key": "value" },
+  "key:value"
+],
+"A key must be followed by `:` *and at least a space*.");

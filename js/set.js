@@ -34,8 +34,8 @@ SetStream.prototype = {
     }
     return this.text[this.offset++];
   },
-  peekChar: function() {
-    return this.text[this.offset];
+  peekChar: function(i) {
+    return this.text[this.offset + (i||0)];
   },
   skip: function(chars) {
     var rchars = new RegExp(chars);
@@ -86,7 +86,9 @@ SetStream.prototype = {
   colonInLine: function() {
     for (var i = this.offset; i < this.text.length; i++) {
       if (this.text[i] === ':') {
-        return true;
+        if (whiteSpace.test(this.text[i+1])) {
+          return true;
+        }
       } else if (newline.test(this.text[i])) {
         return false;
       }
@@ -195,7 +197,7 @@ SetStream.prototype = {
     start = end = this.offset;
     for (;;) {
       ch = this.peekChar();
-      if (!ch || ch === ':' || newline.test(ch)) { break; }
+      if (!ch || (ch === ':' && whiteSpace.test(this.peekChar(2))) || newline.test(ch)) { break; }
       this.getChar();
     }
     end = this.offset;
