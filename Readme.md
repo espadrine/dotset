@@ -19,20 +19,20 @@ The following file `example.set`:
 
 ```yaml
     # Comments. They're actually useful.
-    name: "The Settings File Format"
+    name: "DotSet: The Settings File Format"
     version: 1.0
     That simple?: yes
     Can I nest?:
-      - "You can nest lists…"
-      - and: "obviously"
-        objects: "too!"
+      - You can nest lists…
+      - and: obviously
+        objects: too!
 ```
 
 … would correspond to this JSON:
 
 ```javascript
     {
-      "name": "The Settings File Format",
+      "name": "DotSet: The Settings File Format",
       "version": 1.0,
       "That simple?": true,
       "Can I nest?": [
@@ -59,6 +59,7 @@ Primitives:
 - boolean (`yes` or `no`)
 - null (`null`)
 
+- string: either rawString or the following.
 ![String spec](http://json.org/string.gif)
 
 Also, Strings can escape newlines. Multiline strings for you.
@@ -73,20 +74,15 @@ Also, Strings can escape newlines. Multiline strings for you.
 
 - keyValue of indentation `indent`:
 
-    (unquotedKey OR string) : unquotedPrimitive
+    string : (whitespace)+ primitive
     OR
-    (unquotedKey OR string) : newline indent primitive
+    string : (whitespace)+ newline indent primitive
 
-- unquotedKey:
+- rawString:
 
-    (any unicode character but `:` and `-` and `"` and digit)
-    (any unicode character but `:`)*
-
-- unquotedPrimitive:
-
-    any primitive but dictionary
-    OR
-    dictionary not starting with `"`
+    (any unicode character but `-` and `"` and digit)
+    (any sequence of unicode character but (`:` (whitespace)+))*
+    but not `yes`, `no`, `null`
 
 - indent: sequence of ASCII characters `0x20`. Nothing else.
 

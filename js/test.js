@@ -3,15 +3,15 @@ var set = require('./set');
 
 assert.deepEqual(set.parse('\
 # Comments. They\'re actually useful.\n\
-name: "The Settings File Format"\n\
+name: "DotSet: The Settings File Format"\n\
 version: 1.0\n\
 That simple?: yes\n\
 Can I nest?:\n\
-  - "You can nest lists…"\n\
-  - and: "obviously"\n\
-    objects: "too!"'),
+  - You can nest lists…\n\
+  - and: obviously\n\
+    objects: too!'),
 {
-  "name": "The Settings File Format",
+  "name": "DotSet: The Settings File Format",
   "version": 1,
   "That simple?": true,
   "Can I nest?": [
