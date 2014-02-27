@@ -101,8 +101,15 @@ SetStream.prototype = {
     this.skipWhitespace();
     ch = this.peekChar();
     if (ch === '"') {
-      // String!
-      return this.readString();
+      var column = this.column;
+      var keyOrString = this.readString();
+      if (this.colonInLine()) {
+        // Dictionary!
+        return this.readDictionary(column, keyOrString);
+      } else {
+        // String!
+        return keyOrString;
+      }
     }
     if (ch === '-') {
       ch = this.text[this.offset + 1];
@@ -310,30 +317,38 @@ SetStream.prototype = {
   },
 
   // Starts with a key.
-  readDictionary: function() {
+  readDictionary: function(givenColumn, givenKey) {
     var start, end, key, ch, indent, dict;
     dict = {};
     indent = this.column;
     do {
-      ch = this.peekChar();
-      if (ch === '"') {
-        key = this.readString();
+      if (givenKey != null) {
+        key = givenKey;
+        indent = givenColumn;
+        givenKey = null;
+        this.skipWhitespace();
         this.getChar();  // skip :.
       } else {
-        start = end = this.offset;
-        for (;;) {
-          ch = this.getChar();
-          if (!ch) { break; }
-          if (ch === ":") {
-            break;
-          } else if (!spaces.test(ch)) {
-            end = this.offset;
+        ch = this.peekChar();
+        if (ch === '"') {
+          key = this.readString();
+          this.skipWhitespace();
+          this.getChar();  // skip :.
+        } else {
+          start = end = this.offset;
+          for (;;) {
+            ch = this.getChar();
+            if (!ch) { break; }
+            if (ch === ":") {
+              break;
+            } else if (!spaces.test(ch)) {
+              end = this.offset;
+            }
           }
+          key = this.text.slice(start, end);
         }
-        //end = this.offset - 1;
-        key = this.text.slice(start, end);
+        if (!ch) { break; }
       }
-      if (!ch) { break; }
 
       var currentLine = this.line;
       dict[key] = this.readPrimitive();

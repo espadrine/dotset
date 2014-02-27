@@ -80,3 +80,11 @@ assert.deepEqual(set.parse('\
   { "key": "value" }
 ],
 "Whitespace before `:` is ignored.");
+
+assert.deepEqual(set.parse('\
+":": value\n\
+"more": value'), {
+  ":": "value",
+  "more": "value"
+},
+"Dictionary keys can be strings.");
