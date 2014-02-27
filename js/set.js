@@ -338,7 +338,7 @@ SetStream.prototype = {
       var currentLine = this.line;
       dict[key] = this.readPrimitive();
       this.skipWhitespace();
-      if (this.line === currentLine) {
+      if (this.line === currentLine && !!this.peekChar()) {
         this.error('Newline missing after dictionary value.');
       }
     } while (this.currentIndent() >= indent);
