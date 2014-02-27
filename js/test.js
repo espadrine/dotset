@@ -54,3 +54,9 @@ assert.deepEqual(set.parse('\
   "2": "two"
 },
 "Parser supports numbers as keys.");
+
+assert.deepEqual(set.parse('\
+string: by default'), {
+  "string": "by default"
+},
+"Non-dictionary primitives are strings by default.");

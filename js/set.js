@@ -150,7 +150,7 @@ SetStream.prototype = {
       }
     }
     // Dictionary!
-    return this.readDictionary();
+    return this.readRawString();
   },
 
   // We are at the " of the string.
@@ -188,6 +188,17 @@ SetStream.prototype = {
     } catch(e) {
       this.error(e.message.replace(/^JSON\.parse: /, ''));
     }
+  },
+  readRawString: function() {
+    var ch, start, end, i;
+    start = end = this.offset;
+    for (;;) {
+      ch = this.peekChar();
+      if (!ch || ch === ':' || newline.test(ch)) { break; }
+      this.getChar();
+    }
+    end = this.offset;
+    return this.text.slice(start, end);
   },
 
   // We're at the start of a number.
