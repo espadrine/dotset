@@ -19,7 +19,7 @@ The following file `example.set`:
 
 ```yaml
     # Comments. They're actually useful.
-    name: "DotSet: The Settings File Format"
+    name: "Dotset: The Settings File Format"
     version: 1.0
     That simple?: yes
     Can I nest?:
@@ -32,7 +32,7 @@ The following file `example.set`:
 
 ```javascript
     {
-      "name": "DotSet: The Settings File Format",
+      "name": "Dotset: The Settings File Format",
       "version": 1.0,
       "That simple?": true,
       "Can I nest?": [

@@ -52,6 +52,7 @@
 <!-- Start up the editor instances. -->
 <script src="cm/lib/codemirror.js"></script>
 <script src="cm/mode/javascript/javascript.js"></script>
+<script src="cm/mode/yaml/yaml.js"></script>
 <script src="js/set.js"></script>
 <script>
 (function SetEditor() {
@@ -67,6 +68,7 @@ function betterTab(cm) {
 var editors = [
   CodeMirror.fromTextArea(document.getElementById("lcode"), {
     indentUnit: 2,
+    mode: { name: "yaml" },
     electricChars: false,
     extraKeys: { Tab: betterTab }
   }),

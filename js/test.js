@@ -3,7 +3,7 @@ var set = require('./set');
 
 assert.deepEqual(set.parse('\
 # Comments. They\'re actually useful.\n\
-name: "DotSet: The Settings File Format"\n\
+name: "Dotset: The Settings File Format"\n\
 version: 1.0\n\
 That simple?: yes\n\
 Can I nest?:\n\
@@ -11,7 +11,7 @@ Can I nest?:\n\
   - and: obviously\n\
     objects: too!'),
 {
-  "name": "DotSet: The Settings File Format",
+  "name": "Dotset: The Settings File Format",
   "version": 1,
   "That simple?": true,
   "Can I nest?": [
@@ -38,13 +38,13 @@ assert.equal(set.stringify({
   ]
 }, 2),
 '\
-name: "The Settings File Format"\n\
+name: The Settings File Format\n\
 version: 1\n\
 That simple?: yes\n\
 Can I nest?:\n\
-  - "You can nest lists…"\n\
-  - and: "obviously"\n\
-    objects: "too!"\n\n\n',
+  - You can nest lists…\n\
+  - and: obviously\n\
+    objects: too!\n\n\n',
 "Stringifier doesn't work on the front-page example.");
 
 assert.deepEqual(set.parse('\
