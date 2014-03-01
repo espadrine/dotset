@@ -263,7 +263,7 @@ function makeObject() {
 
 var defaultSublime = '\
 # Sets the colors used within the text area\n\
-color_scheme: "Packages/Color Scheme - Default/Monokai.tmTheme"\n\
+color_scheme: Packages/Color Scheme - Default/Monokai.tmTheme\n\
 \n\
 # Note that the font_face and font_size are overriden in the platform\n\
 # specific settings file, for example, "Preferences (Linux).sublime-settings".\n\
@@ -277,7 +277,7 @@ font_size: 10\n\
 font_options: []\n\
 \n\
 # Characters that are considered to separate words\n\
-word_separators: "./\\\\()\\"\'-:,.;<>~!@#$%^&*|+=[]{}`~?"\n\
+word_separators: ./\\()"\'-:,.;<>~!@#$%^&*|+=[]{}`~?\n\
 \n\
 # Set to false to prevent line numbers being drawn in the gutter\n\
 line_numbers: yes\n\
@@ -313,7 +313,7 @@ smart_indent: yes\n\
 # encoding (either detected or given explicitly), this setting will be\n\
 # ignored, and the file will be saved with the encoding it was opened\n\
 # with.\n\
-default_encoding: "UTF-8"\n\
+default_encoding: UTF-8\n\
 \n\
 # Files containing null bytes are opened as hexadecimal by default\n\
 enable_hexadecimal_encoding: yes\n\
@@ -321,7 +321,7 @@ enable_hexadecimal_encoding: yes\n\
 # Determines what character(s) are used to terminate each line in new files.\n\
 # Valid values are \'system\' (whatever the OS uses), \'windows\' (CRLF) and\n\
 # \'unix\' (LF only).\n\
-default_line_ending: "system"\n\
+default_line_ending: system\n\
 \n\
 # When enabled, pressing tab will insert the best matching completion.\n\
 # When disabled, tab will only trigger snippets or insert a tab.\n\
@@ -339,26 +339,26 @@ auto_complete_size_limit: 4194304\n\
 auto_complete_delay: 50\n\
 \n\
 # Controls what scopes auto complete will be triggered in\n\
-auto_complete_selector: "source - comment"\n\
+auto_complete_selector: source - comment\n\
 \n\
 # Additional situations to trigger auto complete\n\
 auto_complete_triggers:\n\
-  - selector: "text.html"\n\
-    characters: "<"\n\
+  - selector: text.html\n\
+    characters: <\n\
 \n\
 # folder_exclude_patterns and file_exclude_patterns control which files\n\
 # are listed in folders on the side bar. These can also be set on a per-\n\
 # project basis.\n\
 folder_exclude_patterns:\n\
-  - ".svn"\n\
-  - ".git"\n\
-  - ".hg"\n\
-  - "CVS"\n\
+  - .svn\n\
+  - .git\n\
+  - .hg\n\
+  - CVS\n\
 \n\
 # List any packages to ignore here. When removing entries from this list,\n\
 # a restart may be required if the package contains plugins.\n\
 ignored_packages:\n\
-  - "Vintage"\n\
+  - Vintage\n\
 ';
 
 var comments = ([
