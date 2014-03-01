@@ -380,6 +380,7 @@ SET.stringify = function SET_STRINGIFY(object, sizeIndent) {
   );
 };
 
+var colonSpaces = new RegExp(':[ \t\u0009\u0020\u00a0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u200c\u200d\u202f\u205f\u2060\u3000\ufeff]');
 function set_stringify(object, sizeIndent, indentation, noIndentFirstItem) {
   var indent = "", i = 0, str = "";
   sizeIndent = sizeIndent || 2;
@@ -395,7 +396,10 @@ function set_stringify(object, sizeIndent, indentation, noIndentFirstItem) {
   } else if (typeof object === "number") {
     return new String(object);
   } else if (typeof object === "string") {
-    return JSON.stringify(object);
+    if (colonSpaces.test(object) || object[0] === '-' || object[0] === '"'
+    || digit.test(object[0])) {
+      return JSON.stringify(object);
+    } else { return object; }
   } else if (object instanceof Array) {
     if (object.length === 0) {
       return "[]";
